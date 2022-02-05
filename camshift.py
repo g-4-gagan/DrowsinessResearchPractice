@@ -1,7 +1,7 @@
-/*
+"""
 youtube link :- https://www.youtube.com/watch?v=a9KZjQ4e6IA
 code :- https://pysource.com/2018/04/09/object-tracking-with-camshift-opencv-3-4-with-python-3-tutorial-30/
-*/
+"""
 
 import cv2
 import numpy as np
