@@ -22,7 +22,7 @@ if detected_circles is not None:
     detected_circles = np.uint16(np.around(detected_circles))
   
     for pt in detected_circles[0, :]:
-        a, b, r = pt[0], pt[1], pt[2]
+        a, b, r = pt[0], pt[1], pt[2]Q
   
         # Draw the circumference of the circle.
         cv2.circle(img, (a, b), r, (0, 255, 0), 2)
