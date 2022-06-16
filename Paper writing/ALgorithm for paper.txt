@@ -1,0 +1,62 @@
+Algorithm 1 CAMSHIFT Algorithm
+Initialization: 1. Choose the interest area which contains the object
+to be followed; in our case, the face or eyes
+2. Calculate the color histogram of the interest area
+3. Calculate the probable distribution of the color histogram
+4. Find the gravity center of the interest zone by the Mean–Shift
+algorithm [13]
+5. Centring the research window, comparing it to the point calculated
+in stage 4 and regulating its size
+6. Turn over on stage 4, until the system convergence
+
+
+Algorithm 2 EMD Algorithm
+Initialization: 1. Memorize the entry signal, h(xt ) = f (xt )
+2. Calculate the higher and lower envelope and find its average
+a(xt ) = (mmin(xt ) + mmax (xt ))/2 starting from the local maxima
+and minima
+3. I MF(xt ) and the residue r (xt ) extraction after the subtraction of
+the original signal by the local average a(xt )
+4. If r (xt ) has at least two extrema, then turn over at the stage number
+1 with h(xt ) = r (xt ), if not residue r (xt ) is final
+
+Algorithm Viola Jones Part
+Initialization: 1. Get the ith input Frame/image, img = f(i)
+2. Make detectors for front face, left eye and right eye using openCV cascadeClassifier function
+3. detect faces, left eyes and right eyes in the img using detectors in step 2
+4. store faces, leftEyes and RightEyes in format of [(x, y, w, h),...] where x and y are strating co-ordinates and w and h are width and height respectively.
+
+Algorithm Camshift part
+Initialization: 1. choose the interest area which contains the object to be followed; that are face and eyes
+2. convert the interest area in to HSV; Hface = HSV(face), HleftEye = HSV(leftEye), HrightEye = HSV(rightEye)
+3. f(i) train /test f(i+1)
+4. cFace(i)[(x, y, w, h),...], cLeftEye(i), cRighteye(i) where i in range(1,n-1)
+
+f(1)-->camshift
+camshift-->f(2) onwards
+f(1) actual RBG
+
+Algorithm dlib Landmark Detection
+Initialization: 1. choose the area having face, face = cFace(i)
+2. Make predictor for landmarks using dlib's shape_predictor function, predictor
+3. convert the face frame to gray color model, grayFace = GRAY(face)
+4. find the landwarks using predictor, landmarks = predictor(grayFace, face)
+5. calculate EAR(EYE ASPECT RATIO) for left eye using landamarks[36-41], degLeftEye = calculate(landmarks[36],...,landmarks[41])
+6. calculate EAR(EYE ASPECT RATIO) for right eye using landamarks[42-47], degRightEye = calculate(landmarks[42],...,landmarks[47])
+7. divide it into OPEN, Semi-Open and Close on basis, 
+		7.1. if(degLeftEye > 35%(customize) or degRightEye > 35%), status = open 
+		7.2. elseif(degLeftEye > 20% or degRightEye > 20%), status = semi-open
+		7.3. else, status = close
+
+
+Algorithm circular Hough 
+Initialization: 1. if eyeStatus != close in dlib part, choose the area having eyes; leftEye = cLeftEye(i), rightEye = cRightEye(i)
+2. resize the eyes to 400x100 resolution; leftEye = resize(leftEye), rightEye = resize(rightEye)
+2. convert frames to gray color model and blur; bGleftEye = blur(gray(leftEye)), bGrightEye = blur(gray(rightEye))
+3. detect circles with HoughCircles function of openCV using minRadius as __ and max maxRadius as __, circles = [(x,y,r),...]; where x and y are coordinates of centre and r is radius
+4. classify the iris position to left, right, top, bottom, centre
+		4.1. if(x<80): position = left
+		4.2. elseif(x>320): position = right
+		4.3. elseif(y<20): position = top
+		4.4. elseif(y>80): position = bottom
+		4.5. else: position = centre

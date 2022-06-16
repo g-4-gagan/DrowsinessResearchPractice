@@ -12,10 +12,10 @@ img = cv2.imread("diary.jpg")
 
 # cv2.imshow("Image",img)
 
-x = 354
-y = 252
-width = 455-x
-height = 395-y
+x = 200
+y = 152
+width = 255-x
+height = 232-y
 hsv_roi = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 roi_hist = cv2.calcHist([hsv_roi], [0], None, [180], [0, 180])
 
